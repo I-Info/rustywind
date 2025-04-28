@@ -11,7 +11,7 @@ repository.workspace = true
 
 [dependencies]
 # rustywind_core = { path = "../rustywind-core" }
-rustywind_core = { version = "0.3.0" }
+rustywind_core = { version = "0.3.0", path = "../rustywind-core" }
 
 # tls
 rustls = { version = "0.23", features = ["ring"], default-features = false }

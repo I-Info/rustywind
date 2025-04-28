@@ -13,7 +13,7 @@ use crate::defaults::{RE, SORTER};
 use eyre::Result;
 
 pub(crate) static SORTER_EXTRACTOR_RE: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"^(\.[^\s]+)[ ]").unwrap());
+    Lazy::new(|| Regex::new(r"^\s*(\.[^\s:\[\]]+)[\s:\[\]]").unwrap());
 
 /// Use either our default regex in [crate::defaults::RE] or a custom regex.
 #[derive(Debug, Clone)]
@@ -91,9 +91,11 @@ mod tests {
     #[test]
     fn extracts_all_classes() {
         let css_file = std::fs::File::open("tests/fixtures/tailwind.css").unwrap();
-        let classes = Sorter::new_from_file(css_file).unwrap();
 
+        let classes = Sorter::new_from_file(css_file).unwrap();
+        // println!("{:?}", classes);
+        assert_eq!(classes.get("btn"), Some(&203));
         assert_eq!(classes.get("container"), Some(&0));
-        assert_eq!(classes.len(), 221);
+        assert_eq!(classes.len(), 211);
     }
 }
